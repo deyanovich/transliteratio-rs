@@ -1,0 +1,42 @@
+# CI for transliteratio-rs. Runs on the authoritative (private)
+# GitLab project; the public mirror does not run CI.
+stages:
+  - check
+
+.rust:
+  stage: check
+  image: rust:latest
+  cache:
+    key: cargo-$CI_JOB_NAME
+    paths:
+      - .cargo/
+      - target/
+  variables:
+    CARGO_HOME: $CI_PROJECT_DIR/.cargo
+
+fmt:
+  extends: .rust
+  script:
+    - rustup component add rustfmt
+    - cargo fmt --check
+
+clippy:
+  extends: .rust
+  script:
+    - rustup component add clippy
+    - cargo clippy --all-targets -- -D warnings
+
+test:
+  extends: .rust
+  script:
+    - cargo test
+
+# Every table is a feature: a build with one table alone must
+# compile, and the bare crate too.
+test-features:
+  extends: .rust
+  script:
+    - cargo check --no-default-features
+    - cargo check --no-default-features --features gost
+    - cargo check --no-default-features --features cyrillic,deaccent
+    - cargo test --no-default-features --features all

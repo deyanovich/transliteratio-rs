@@ -1,0 +1,105 @@
+[package]
+name = "transliteratio"
+version = "0.1.0"
+edition = "2024"
+description = "Transliteration tables, string to string: ISO, GOST, BGN/PCGN, ALA-LC, ELOT, DIN 31635, Hepburn, pinyin, Wade–Giles, the Korean systems, Beta Code, the national systems, inverses, Latin-to-ASCII folds, accent removal by language"
+license = "MIT OR Apache-2.0"
+repository = "https://gitlab.com/transliteratio/transliteratio-rs"
+readme = "README.md"
+keywords = ["transliteration", "romanization", "unicode", "cyrillic", "diacritics"]
+categories = ["text-processing", "internationalization"]
+exclude = [".cito.yml", ".cito-promote-exclude", ".gitlab-ci.yml"]
+
+[dependencies]
+unicode-normalization = "0.1"
+unicode-properties = { version = "0.1", features = ["general-category"] }
+
+[features]
+default = ["all"]
+all = ["iso", "cyrillic", "greek", "arabic", "hebrew", "armenian", "georgian", "indic", "thai", "japanese", "chinese", "korean", "latin", "ala", "bgn", "spelling", "deaccent", "strip"]
+
+# One feature per table.
+iso9 = []
+iso843 = []
+iso9985 = []
+iso9984 = []
+iso259 = []
+iso233 = []
+iso15919 = []
+iso11940 = []
+iso3602 = []
+gost = []
+scientific = []
+passport = []
+slug = ["bgn-ru"]
+uk = []
+sr = []
+elot = []
+de = []
+mrz = []
+ascii = []
+iso9-cyrl = ["iso9"]
+gost-cyrl = ["gost"]
+betacode = []
+din31635 = []
+buckwalter = []
+heb = []
+hepburn = ["iso3602"]
+pinyin = []
+wade = []
+rr = []
+mr = []
+iast = ["iso15919"]
+hunterian = ["iso15919"]
+bg = []
+be = []
+ka = []
+kk = []
+mn = []
+
+# The families, one feature per member table.
+bgn-ru = []
+bgn-uk = []
+bgn-be = []
+bgn-bg = []
+bgn-mk = []
+bgn-kk = []
+bgn-arabic = []
+bgn-hebrew = []
+bgn-armenian = []
+bgn-georgian = []
+bgn = ["bgn-ru", "bgn-uk", "bgn-be", "bgn-bg", "bgn-mk", "bgn-kk", "sr", "elot", "bgn-arabic", "bgn-hebrew", "bgn-armenian", "bgn-georgian"]
+ala-ru = []
+ala-greek = []
+ala-arabic = []
+ala-hebrew = []
+ala-armenian = []
+ala-georgian = []
+ala-thai = []
+ala = ["ala-ru", "ala-greek", "ala-arabic", "ala-hebrew", "ala-armenian", "ala-georgian", "ala-thai", "iast", "hepburn", "mr"]
+
+# Umbrellas per script; `iso` is every script's ISO table (the
+# default table picks by script).
+iso = ["iso9", "iso843", "iso9985", "iso9984", "iso259", "iso233", "iso15919", "iso11940", "iso3602"]
+cyrillic = ["iso9", "gost", "scientific", "bgn-ru", "passport", "ala-ru", "slug", "uk", "sr", "iso9-cyrl", "gost-cyrl", "bg", "be", "kk", "mn", "bgn-uk", "bgn-be", "bgn-bg", "bgn-mk", "bgn-kk"]
+greek = ["iso843", "elot", "betacode", "ala-greek"]
+arabic = ["iso233", "din31635", "buckwalter", "ala-arabic", "bgn-arabic"]
+hebrew = ["iso259", "heb", "ala-hebrew", "bgn-hebrew"]
+armenian = ["iso9985", "ala-armenian", "bgn-armenian"]
+georgian = ["iso9984", "ka", "ala-georgian", "bgn-georgian"]
+indic = ["iso15919", "iast", "hunterian"]
+thai = ["iso11940", "ala-thai"]
+japanese = ["iso3602", "hepburn"]
+chinese = ["pinyin", "wade"]
+korean = ["rr", "mr"]
+latin = ["de", "mrz", "ascii", "sr"]
+
+# Beside the tables: the spelling tables (`modernize`), the accent
+# tables by language (`deaccent`), every mark off (`strip`).
+spelling = []
+deaccent-cyrillic = []
+deaccent-greek = []
+deaccent-romance = []
+deaccent-vietnamese = []
+deaccent = ["deaccent-cyrillic", "deaccent-greek", "deaccent-romance", "deaccent-vietnamese"]
+strip = []
